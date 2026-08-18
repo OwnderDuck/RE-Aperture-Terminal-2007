@@ -1,21 +1,39 @@
 #include <bits/stdc++.h>
-#include <termios.h>
 #include "question.hpp"
 using namespace std;
 bool skip=0;
-termios oldTerm;
-void rawMode(bool enable){
+#ifdef _WIN32
+#include <windows.h>
+DWORD oldMode;
+void rawMode(bool enable) {
+    HANDLE hStdin=GetStdHandle(STD_INPUT_HANDLE);
     if (enable) {
-        tcgetattr(STDIN_FILENO, &oldTerm);
-        termios t = oldTerm;
-        t.c_lflag &= ~(ICANON | ECHO);
-        t.c_cc[VMIN] = 1;
-        t.c_cc[VTIME] = 0;
-        tcsetattr(STDIN_FILENO, TCSANOW, &t);
+        GetConsoleMode(hStdin,&oldMode);
+        DWORD mode=oldMode;
+        mode&=~(ENABLE_LINE_INPUT|ENABLE_ECHO_INPUT);
+        SetConsoleMode(hStdin, mode);
     } else {
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldTerm);
+        SetConsoleMode(hStdin, oldMode);
     }
 }
+
+#else
+#include <termios.h>
+#include <unistd.h>
+termios oldTerm;
+void rawMode(bool enable) {
+    if (enable) {
+        tcgetattr(STDIN_FILENO,&oldTerm);
+        termios t=oldTerm;
+        t.c_lflag&=~(ICANON|ECHO);
+        t.c_cc[VMIN]=1;
+        t.c_cc[VTIME]=0;
+        tcsetattr(STDIN_FILENO,TCSANOW, &t);
+    } else {
+        tcsetattr(STDIN_FILENO,TCSANOW, &oldTerm);
+    }
+}
+#endif
 struct RawMode {
     RawMode()  { rawMode(1); }
     ~RawMode() { rawMode(0); }
