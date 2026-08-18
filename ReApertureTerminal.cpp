@@ -1,59 +1,68 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <string>
+#include <random>
+#include <cstdint>
+#include <cstdio>
 #include "question.hpp"
 using namespace std;
 bool skip=0;
 #ifdef _WIN32
-#include <windows.h>
-DWORD oldMode;
-void rawMode(bool enable) {
-    HANDLE hStdin=GetStdHandle(STD_INPUT_HANDLE);
-    if (enable) {
-        GetConsoleMode(hStdin,&oldMode);
-        DWORD mode=oldMode;
-        mode&=~(ENABLE_LINE_INPUT|ENABLE_ECHO_INPUT);
-        SetConsoleMode(hStdin, mode);
-    } else {
-        SetConsoleMode(hStdin, oldMode);
-    }
-}
-
+    #include <windows.h>
+    #include <conio.h>
+    static inline int myGetch(void) {return _getch();}
+    void rawMode(bool) {}
 #else
-#include <termios.h>
-#include <unistd.h>
-termios oldTerm;
-void rawMode(bool enable) {
-    if (enable) {
-        tcgetattr(STDIN_FILENO,&oldTerm);
-        termios t=oldTerm;
-        t.c_lflag&=~(ICANON|ECHO);
-        t.c_cc[VMIN]=1;
-        t.c_cc[VTIME]=0;
-        tcsetattr(STDIN_FILENO,TCSANOW, &t);
-    } else {
-        tcsetattr(STDIN_FILENO,TCSANOW, &oldTerm);
+    #include <unistd.h>
+    #include <termios.h>
+    termios oldTerm;
+    void rawMode(bool enable) {
+        if (enable) {
+            tcgetattr(STDIN_FILENO,&oldTerm);
+            termios t=oldTerm;
+            t.c_lflag&=~(ICANON|ECHO);
+            t.c_cc[VMIN]=1;
+            t.c_cc[VTIME]=0;
+            tcsetattr(STDIN_FILENO,TCSANOW, &t);
+        } else {
+            tcsetattr(STDIN_FILENO,TCSANOW, &oldTerm);
+        }
     }
-}
+    static inline int myGetch(void) {
+        char c;
+        if (read(STDIN_FILENO,&c,1)==1) {return (unsigned char)c;}
+        return EOF;
+    }
+    struct RawMode {
+        RawMode()  { rawMode(1); }
+        ~RawMode() { rawMode(0); }
+    };
 #endif
-struct RawMode {
-    RawMode()  { rawMode(1); }
-    ~RawMode() { rawMode(0); }
-};
 
 int keepRunning=0;
 enum stateEnum {UNLOGIN,USERNAME,PASSWORD,LOGINED,CAKE,NOTES,APPLY};
 string input;
 void typeString(string s,int delay) {
     for (auto x:s) {
-        if (delay>0&&!skip) usleep(delay*1000);
+        if (delay>0&&!skip) {
+#ifdef _WIN32
+            Sleep(delay);
+#else
+            usleep(delay*1000);
+#endif
+        }
         putchar(x);
         fflush(stdout);
     }
 }
+
 string getLine() {
     char g;
     string ans;
     while (1) {
-        read(STDIN_FILENO,&g, 1);
+        g=myGetch();
         if (g=='\n'){break;}
         if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
         if ('a'<=g&&g<='z'){g-=('a'-'A');}
@@ -63,13 +72,39 @@ string getLine() {
     }
     return ans;
 }
-// 读取主板的uuid，hash后作为uid的seed
-string getProductUuid(){// 这个要跨平台
-    ifstream file("/sys/class/dmi/id/product_uuid");
-    string uuid;
-    file>>uuid;
-    return uuid;
-}
+#ifdef _WIN32
+    string getProductUuid() {
+        HKEY hKey;
+        string uuid;
+        if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+                          "SOFTWARE\\Microsoft\\Cryptography",
+                          0,KEY_READ,&hKey) == ERROR_SUCCESS) {
+            char buf[64]={0};
+            DWORD size=sizeof(buf);
+            if (RegQueryValueExA(hKey,"MachineGuid", nullptr, nullptr,
+                                 (LPBYTE)buf, &size) == ERROR_SUCCESS) {
+                uuid = buf;
+                                 }
+            RegCloseKey(hKey);
+                          }
+        if (uuid.empty()) {
+            char compName[128];
+            DWORD size = sizeof(compName);
+            if (GetComputerNameA(compName, &size)) {
+                return compName;
+            }
+        }
+        return uuid;
+    }
+#else
+    // 读取主板的uuid，hash后作为uid的seed
+    string getProductUuid(){
+        ifstream file("/sys/class/dmi/id/product_uuid");
+        string uuid;
+        file>>uuid;
+        return uuid;
+    }
+#endif
 uint64_t hashUuid(const string& s){
     uint64_t h=14695981039346656037ULL;
     for (char c:s) {
@@ -84,7 +119,6 @@ string getLocalUid(){
     for (int i=0;i<4;i++) {ss<<hex<<setw(16)<<setfill('0')<<gen();}
     return ss.str();
 }
-
 int main(){
     keepRunning=1;
     string uid=getLocalUid();
@@ -124,12 +158,12 @@ int main(){
                 else {typeString("ERROR 07 [Incorrect Password]\n\nPassword> ",25);}
                 g=0;
                 while (1) {
-                    read(STDIN_FILENO,&g, 1);
+                    g=myGetch();
                     if (g=='\n'){break;}
                     if (g==127||g==8) {if (!password.empty()) {password.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
                     if ('a'<=g&&g<='z'){g-=('a'-'A');}
                     password+=g;
-                    cout<<'*';
+                    printf("*");
                     fflush(stdout);
                 }
                 if (username=="CJOHNSON") {
@@ -177,7 +211,7 @@ int main(){
                             "If a supervisor walks by, press return!\n");
                     g=0;
                     while(1){
-                        read(STDIN_FILENO,&g,1);
+                        char g=myGetch();
                         if(g) {
                             bossKeyMode=1;
                             break;
@@ -214,7 +248,7 @@ int main(){
                        );
                     fflush(stdout);
                     while(1){
-                        read(STDIN_FILENO,&g,1);
+                        char g=myGetch();
                         if(g) {
                             bossKeyMode=0;
                             break;
@@ -224,13 +258,13 @@ int main(){
                 break;
             case NOTES:
                 printf("\033[2J\033[H");typeString("1953 - Aperture Science begins operations as a manufacturer of shower curtains. Early product line provides a very low-tech portal between the inside and outside of your shower. Very little science is actually involved. The name is chosen to make the curtains appear more hygienic.\n\n1956 - Eisenhower administration awards Aperture a contract to provide shower curtains to all branches of the military except the Navy.\n\n1957 - 1975 - Mostly shower curtains.\n\n1978 - Aperture Founder and CEO, Cave Johnson, is exposed to mercury while secretly developing a dangerous mercury-injected rubber sheeting from which he plans to manufacture seven deadly shower curtains to be given as gifts to each member of the House Naval Appropriations committee.\n\n\n[MORE]",3);
-                g=0;while(1){read(STDIN_FILENO,&g,1);if(g) {
+                g=0;while(1){char g=myGetch();if(g) {
                     printf("\033[2J\033[H");typeString("1979 - Both of Cave Johnson\'s kidneys fail. Brain damaged, dying, and incapable of being convinced that time is not now flowing backwards, Johnson lays out a three tiered R&D program. The results, he says, will \'guarantee the continued success of Aperture Science far into the fast-approaching distant past.\'\n\nTier 1: The Heimlich Counter-Maneuver - A reliable technique for interrupting the life-saving Heimlich Maneuver.\n\nTier 2: The Take-A-Wish Foundation - A charitable organization that will purchase wishes from the parents of terminally ill children and redistribute them to wish-deprived but otherwise healthy adults.\n\nTier 3: \'Some kind of rip in the fabric of space… That would… Well, it\'d be like, I don\'t know, something that would help with the shower curtains I guess. I haven\'t worked this idea out as much as the wish-taking one.\'\n\n\n[MORE]",3);
-                    g=0;while(1){read(STDIN_FILENO,&g,1);if(g) {
+                    g=0;while(1){char g=myGetch();if(g) {
                         printf("\033[2J\033[H");typeString("1981 - Diligent Aperture engineers complete the Heimlich Counter-Maneuver and Take-A-Wish Foundation initiatives.  The company announces products related to the research in a lavish, televised ceremony. These products become immediately wildly unpopular.  After a string of very public choking and despondent sick child disasters, senior company officials are summoned before a Senate investigative committee. During these proceedings, an engineer mentions that some progress has been made on Tier 3, the \'man-sized ad hoc quantum tunnel through physical space with possible applications as a shower curtain.\' The committee is quickly permanently recessed, and Aperture is granted an open-ended contract to secretly continue research on the \'Portal\' and Heimlich Counter-Maneuver projects.\n\n\n[MORE]",3);
-                        g=0;while(1){read(STDIN_FILENO,&g,1);if(g) {
+                        g=0;while(1){char g=myGetch();if(g) {
                             printf("\033[2J\033[H");typeString("1981-1985 - Work progresses on the \'Portal\' project. Several high ranking Fatah personnel choke to death on lamb chunks despite the intervention of their bodyguards.\n\n1986 - Word reaches Aperture management that another defense contractor called Black Mesa is working on a similar portal technology. In response to this news, Aperture begins developing the Genetic Lifeform and Disk Operating System (GLaDOS), an artificially intelligent research assistant and disk operating system.\n\n1996 - After a decade spent bringing the disk operating parts of GLaDOS to a state of more or less basic functionality, work begins on the Genetic Lifeform component.\n\nSeveral Years Later - The untested AI is activated for the first time as one of the planned activities on Aperture\'s first annual bring-your-daughter-to-work day.\n\nIn many ways, the initial test goes well...\n\n\n[END]",3);
-                            g=0;while(1){read(STDIN_FILENO,&g,1);if(g) {
+                            g=0;while(1){char g=myGetch();if(g) {
                                 state=LOGINED;
                             break;}}
                         break;}}
@@ -264,7 +298,7 @@ int main(){
 
                 } else {
                     ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
-                    if (qs[step].t='T') {typeString(ts+qs[step].q+"\n\n> ",25);}
+                    if (qs[step].t=='T') {typeString(ts+qs[step].q+"\n\n> ",25);}
                     else {
                         if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
                         else {typeString(ts+qs[step].q+"\n\n",15);}

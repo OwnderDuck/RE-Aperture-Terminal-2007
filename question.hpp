@@ -1,7 +1,6 @@
 #ifndef QUESTION_HPP
 #define QUESTION_HPP
 
-#include <format>
 #include <string>
 #include <vector>
 struct Q {
