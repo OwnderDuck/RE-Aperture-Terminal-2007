@@ -140,11 +140,12 @@ int main(){
         switch (state) {
             case UNLOGIN:
                 printf("\033[2J\033[H");//clr
+                goto_UNLOGIN_2:;
                 typeString("> ",0);
                 input=getLine();
                 fflush(stdout);
                 if (input=="LOGIN") {state=USERNAME;}
-                else if (input=="HELP") {printf("\033[2J\033[H");typeString("If this is an actual plea for help in response to a hazardous material spill, an explosion, a fire on your person, radiation poisoning, a choking gas of unknown origin, eye trauma resulting from the use of an emergency eye wash station on floors three, four, or eleven, an animal malfunction, or any other injurious experimental equipment failure, please remain at your workstation. A Crisis Response Team has already been mobilized to deliberate on a response to your crisis.\n\nIf you need help accessing the system, please refer to your User Handbook.\n\n",10);}
+                else if (input=="HELP") {printf("\033[2J\033[H");typeString("If this is an actual plea for help in response to a hazardous material spill, an explosion, a fire on your person, radiation poisoning, a choking gas of unknown origin, eye trauma resulting from the use of an emergency eye wash station on floors three, four, or eleven, an animal malfunction, or any other injurious experimental equipment failure, please remain at your workstation. A Crisis Response Team has already been mobilized to deliberate on a response to your crisis.\n\nIf you need help accessing the system, please refer to your User Handbook.\n\n",10);goto goto_UNLOGIN_2;}
                 break;
             case USERNAME:
                 printf("\033[2J\033[H");
