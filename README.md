@@ -1,5 +1,5 @@
 > Not affiliated with Valve.
-# RE : Aperture Terminal 2007
+# Re : Aperture Terminal 2007
 > A C++ reimplementation of the Aperture Science Terminal originally hosted on [aperturescience.com](https://aperturescience.com) in 2007.
 
 [简体中文](docs/README-zh_CN.md)

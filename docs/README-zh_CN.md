@@ -1,5 +1,5 @@
 > 与 Valve 无任何关联。
-# RE : Aperture Terminal 2007
+# Re : Aperture Terminal 2007
 > 用 C++ 重现 2007 年托管在 [aperturescience.com](https://aperturescience.com) 的 Aperture Science Terminal。
 ## 简介
 在《Portal》发售前后（2007），[aperturescience.com](https://aperturescience.com) 有一个 Aperture Science Terminal，它是基于 Flash 的，但是**Flash早就out了**。
