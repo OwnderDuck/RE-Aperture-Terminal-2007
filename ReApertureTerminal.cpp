@@ -78,6 +78,7 @@ int main(){
     char g;
     bool passwordWrong=0;
     bool bossKeyMode=0;
+    int step=-1;
     string hearder="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",pormpt="B:\\>";
     while(keepRunning) {
         input="";
@@ -133,14 +134,8 @@ int main(){
                 else if (input=="INTERROGATE") {message="\n\nERROR 02 [Command requires at least one parameter]";}
                 else if (input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E') {if (username=="CJOHNSON") {message = "\n\nERROR 07 [Unknown Employee]";}else {message = "\n\nERROR 01 [Illegal attempt to initiate disciplinary action]";}}
                 else if (input=="TAPEDISK") {message="\n\nERROR 18 [User not authorized to transfer system tapes]";}
-                else if (input=="NOTES"||input=="NOTES.EXE") {
-                    if (username=="CJOHNSON") {state=NOTES;}
-                    else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
-                }
-                else if (input=="APPLY"||input=="APPLY.EXE") {
-                    if (username=="CJOHNSON") {state=APPLY;}
-                    else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
-                }
+                else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}}
+                else if (input=="APPLY"||input=="APPLY.EXE") {step=-1;state=APPLY;}
                 else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
                 break;
             case CAKE:
@@ -220,6 +215,28 @@ int main(){
                         break;}}
                     break;}}
                 break;}}
+                break;
+            case APPLY:
+                printf("\033[2J\033[H");
+                if (step==-1) {
+                    typeString("Loaded: ENRICHMENT CENTER TEST SUBJECT APPLICATION PROCESS           \nForm   : FORMS-EN-2873-FORM (PART1: PERSONALITY & GENERAL KNOWLEDGE)\n\nIf you are a first time applicant, please type \"CONTINUE\".\n\nDISREGARD THIS INSTRUCTION if you are returning to form FORMS-EN-2873-FORM after a break of any duration for any reason. In that case, you MUST contact your supervisor before proceeding.Your supervisor will solicit your Authorized Administrative Unit for an affirmative injunction to type \"CONTINUE\".\n\nIf permission to type \"CONTINUE\" has been granted, please do so now, unless the box labeled \"DO NOT TYPE CONTINUE\" on the \"Forms Re-Sanction\" form you should have received from your supervisor is checked, in which case you should remain at your workstation not typing \"CONTINUE\" until such a time as you are instructed by your supervisor to discontinue not typing it.\n\n> ",5);
+                    goto_1:;
+                    input=getLine();
+                    if (input=="QUIT") {state=LOGINED;}
+                    if (input=="CONTINUE") {step++;}
+                    else {printf("\033[2K\033[G> ");fflush(stdout);goto goto_1;}
+                }
+                else if (step==0) {
+                    typeString("Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n\033[5m"+uid+"\033[0m\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ",10);
+                    goto0:;
+                    input=getLine();
+                    if (input=="QUIT") {state=LOGINED;}
+                    if (input=="CONTINUE") {step++;}
+                    else {printf("\033[2K\033[G> ");fflush(stdout);goto goto0;}
+                }
+                else {
+                    
+                }
                 break;
         }
     }
