@@ -132,6 +132,7 @@ int main(){
                 else if (input=="PLAY PORTAL") {/*PORTAL!*/;state=LOGINED;}
                 else if (input=="INTERROGATE") {message="\n\nERROR 02 [Command requires at least one parameter]";}
                 else if (input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E') {if (username=="CJOHNSON") {message = "\n\nERROR 07 [Unknown Employee]";}else {message = "\n\nERROR 01 [Illegal attempt to initiate disciplinary action]";}}
+                else if (input=="TAPEDISK") {message="\n\nERROR 18 [User not authorized to transfer system tapes]";}
                 else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
                 break;
             case CAKE:
