@@ -8,7 +8,7 @@ There is a Aperture Science Terminal built with Flash in [aperturescience.com](h
 
 Now I reimplement it in C++.
 ## Status
-There are "`APPLY`&`NOTE`" to be done
+There are `APPLY` to be done
 
 Windows ver. is not diffcult.TODO
 ## Build
