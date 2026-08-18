@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 #include <termios.h>
+#include "question.hpp"
 using namespace std;
-
+bool skip=0;
 termios oldTerm;
 void rawMode(bool enable){
     if (enable) {
@@ -25,7 +26,7 @@ enum stateEnum {UNLOGIN,USERNAME,PASSWORD,LOGINED,CAKE,NOTES,APPLY};
 string input;
 void typeString(string s,int delay) {
     for (auto x:s) {
-        if (delay>0) usleep(delay*1000);
+        if (delay>0&&!skip) usleep(delay*1000);
         putchar(x);
         fflush(stdout);
     }
@@ -67,19 +68,21 @@ string getLocalUid(){
 }
 
 int main(){
-    string uid=getLocalUid();
     keepRunning=1;
+    string uid=getLocalUid();
     stateEnum state=UNLOGIN;
     string username,password;
-
     rawMode(1);
+    initQ();
     printf("\033[2J\033[H");
     fflush(stdout);
     char g;
     bool passwordWrong=0;
     bool bossKeyMode=0;
     int step=-1;
-    string hearder="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",pormpt="B:\\>";
+    string hearder="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",prompt="B:\\>";
+    string ts;
+    int pageNow=0;
     while(keepRunning) {
         input="";
         switch (state) {
@@ -112,7 +115,7 @@ int main(){
                     fflush(stdout);
                 }
                 if (username=="CJOHNSON") {
-                    if (password=="TIER3") {hearder="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";pormpt="ADMIN> ";state=LOGINED;}
+                    if (password=="TIER3") {hearder="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";prompt="ADMIN> ";state=LOGINED;}
                     else {passwordWrong=1;}
                 } else {
                     if (password=="PORTAL"||password=="PORTALS") {state=LOGINED;}
@@ -121,7 +124,7 @@ int main(){
                 break;
             case LOGINED:
                 printf("\033[2J\033[H");
-                typeString("GLaDOS v1.07a (c) 1982 Aperture Science, Inc."+message+"\n\n"+pormpt,7);
+                typeString("GLaDOS v1.07a (c) 1982 Aperture Science, Inc."+message+"\n\n"+prompt,7);
                 input=getLine();
                 if (input=="THECAKEISALIE") {state=CAKE;}
                 else if (input=="DIR"||input=="CATALOG"||input=="DIRECTORY"||input=="LIST"||input=="LS"||input=="CAT") {if (username=="CJOHNSON") {message="                                                                                                                \n                                                                                                                                                                                                                      \nDISK VOLUME 255 [WORKSTATION CJOHNSON]\n\n     I  019  APPLY.EXE\n     I  004  NOTES.EXE\n\n2 FILE(S) IN 23 BLOCKS\n\n";} else {message="                                                                                                                \n                                                                                                                                                                                                                      \nDISK VOLUME 255 [NEW EMPLOYEE WORKSTATION]\n\n     I  019  APPLY.EXE\n\n1 FILE(S) IN 19 BLOCKS\n\n";}}
@@ -225,17 +228,32 @@ int main(){
                     if (input=="QUIT") {state=LOGINED;}
                     if (input=="CONTINUE") {step++;}
                     else {printf("\033[2K\033[G> ");fflush(stdout);goto goto_1;}
-                }
-                else if (step==0) {
-                    typeString("Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n\033[5m"+uid+"\033[0m\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ",10);
+                } else if (step==0) {
+                    typeString("Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n",10);
+                    printf("[%s]", uid.c_str());fflush(stdout);
+                    typeString("\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ",10);
+                    printf("\033[2J\033[H");fflush(stdout);
+                    printf("Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n");
+                    printf("[\033[5m%s\033[0m]", uid.c_str());fflush(stdout);
+                    printf("\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ");
+                    fflush(stdout);
                     goto0:;
                     input=getLine();
                     if (input=="QUIT") {state=LOGINED;}
                     if (input=="CONTINUE") {step++;}
                     else {printf("\033[2K\033[G> ");fflush(stdout);goto goto0;}
-                }
-                else {
-                    
+                } else if (step==51){
+
+                } else {
+                    ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
+                    if (qs[step].t='T') {typeString(ts+qs[step].q+"\n\n> ",25);}
+                    else {
+                        if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
+                        else {typeString(ts+qs[step].q+"\n\n",15);}
+                    }
+                    input=getLine();
+                    if (input=="QUIT") {state=LOGINED;}
+                    step++;
                 }
                 break;
         }
