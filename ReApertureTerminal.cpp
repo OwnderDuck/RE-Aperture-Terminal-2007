@@ -63,7 +63,7 @@ string getLine() {
     string ans;
     while (1) {
         g=myGetch();
-        if (g=='\n'){break;}
+        if (g=='\n'||g=='\r'){break;}
         if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
         if ('a'<=g&&g<='z'){g-=('a'-'A');}
         ans+=g;
@@ -159,7 +159,7 @@ int main(){
                 g=0;
                 while (1) {
                     g=myGetch();
-                    if (g=='\n'){break;}
+                    if (g=='\n'||g=='\r'){break;}
                     if (g==127||g==8) {if (!password.empty()) {password.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
                     if ('a'<=g&&g<='z'){g-=('a'-'A');}
                     password+=g;
