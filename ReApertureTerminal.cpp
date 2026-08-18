@@ -286,7 +286,7 @@ int main(){
                     typeString("\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ",10);
                     printf("\033[2J\033[H");fflush(stdout);
                     printf("Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n");
-                    printf("[\033[5m%s\033[0m]", uid.c_str());fflush(stdout);
+                    printf("\033[5m[%s]\033[0m", uid.c_str());fflush(stdout);
                     printf("\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ");
                     fflush(stdout);
                     goto0:;
