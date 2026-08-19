@@ -67,6 +67,7 @@ struct Q {
     std::string q;
     char t;
     std::vector<std::string> c;
+    int row=114514,col=114514;
 };
 inline Q qs[51];
 inline void initQ() {
@@ -85,6 +86,7 @@ inline void initQ() {
     qs[3].q="Sally, Dwayne, Anthony, David, and Franklin are, collectively, exactly 10 years apart in age. Sally\'s is two years older than David. David\'s favorite letter is \'g\'. Anthony\'s favorite letter is also \'g\', but Dwayne has no preference, insisting that he likes all the letters equally except for \'s\'.  What is Franklin\'s favorite letter?";
     qs[3].t='R';
     qs[3].c.resize(26);
+    qs[3].row=16;qs[3].col=2;
     qs[3].c[1]="a";
     qs[3].c[2]="b";
     qs[3].c[3]="c";
@@ -124,6 +126,7 @@ inline void initQ() {
     qs[5].q="What is your favorite color?";
     qs[5].t='R';
     qs[5].c.resize(96);
+    qs[5].col=4;
     qs[5].c[1]="Peach-orange";
     qs[5].c[2]="Powder blue";
     qs[5].c[3]="Cyan";
@@ -279,6 +282,7 @@ inline void initQ() {
     qs[14].q="Your favorite color is:";
     qs[14].t='R';
     qs[14].c.resize(95);
+    qs[14].col=4;
     qs[14].c[1]="Camouflage green";
     qs[14].c[2]="Sangria";
     qs[14].c[3]="Salmon";
@@ -391,6 +395,7 @@ inline void initQ() {
     qs[18].q="Which pre-Christian mathematician is not correctly matched to his home city?";
     qs[18].t='R';
     qs[18].c.resize(41);
+    qs[14].col=3;
     qs[18].c[1]="Thales of Miletus";
     qs[18].c[2]="Anaximander of Miletus";
     qs[18].c[3]="Pythagoras of Samos";
@@ -452,6 +457,7 @@ inline void initQ() {
     qs[21].q="Other than a large egret, what wild animal would you like to domesticate? NOTE: Several c, including, but not limited to, \'Large Egret\', may trigger an investigation. Your supervisor has no further information about instigating animals or the investigatory process, though, upon request, your supervisor can provide further details about his or her authorized prophylactic unfamiliarity with procedure.";
     qs[21].t='R';
     qs[21].c.resize(2314);
+    qs[21].row=15;qs[21].col=3;
     qs[21].c[1]="Aardvark";
     qs[21].c[2]="Aardwolf";
     qs[21].c[3]="Abalone";
@@ -2768,6 +2774,7 @@ inline void initQ() {
     qs[22].q="Which interrogation technique do you think would be most effective on you?";
     qs[22].t='R';
     qs[22].c.resize(45);
+    qs[14].col=3;
     qs[22].c[1]="Going Next Door";
     qs[22].c[2]="Pain";
     qs[22].c[3]="Nobody Loves You";
@@ -2996,6 +3003,7 @@ inline void initQ() {
     qs[49].q="Pick your favorite t of cake.";
     qs[49].t='R';
     qs[49].c.resize(61);
+    qs[49].col=4;
     qs[49].c[1]="Angel food cake";
     qs[49].c[2]="Apple cake";
     qs[49].c[3]="Babka";
