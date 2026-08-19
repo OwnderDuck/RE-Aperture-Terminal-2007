@@ -67,7 +67,7 @@ struct Q {
     std::string q;
     char t;
     std::vector<std::string> c;
-    int row=114514,col=114514;
+    int col=1;
 };
 inline Q qs[51];
 inline void initQ() {
