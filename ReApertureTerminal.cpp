@@ -45,6 +45,7 @@ bool skipToApply=0;
 int keepRunning=0;
 enum stateEnum {UNLOGIN,USERNAME,PASSWORD,LOGINED,CAKE,NOTES,APPLY};
 string input;
+
 void typeString(string s,int delay) {
     for (auto x:s) {
         if (delay>0&&!skip) {
@@ -58,12 +59,61 @@ void typeString(string s,int delay) {
         fflush(stdout);
     }
 }
-
-string getLine() {
+int pageNow=0;
+void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
+    pageNow+=(int)x*2-1;
+    if (pageNow<0) {pageNow=0;}
+    printf("\033[2J\033[u%s\033[H",ans.c_str());
+    if(pageNow>0) {typeString(ts+qs[21].q+"\n\n",1);}
+    else {typeString(ts+qs[21].q+"\n\n",15);}
+    for (int i=1;i<=15;i++) {
+        for (int j=1;j<=3;j++) {
+            int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
+            if (num>ln) {break;}
+            // output options
+            for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
+            printf("%d] %s",num,qs[21].c[i].c_str());
+            if (j!=3) {
+                for (int k=1;k<=120/3-(int(log10(ln))+2+qs[21].c[i].length());k++) {printf(" ");}
+            }
+        }
+        printf("\n");
+    }
+    printf(texts[20].c_str());
+    printf("\033[s");
+    fflush(stdout);
+}
+string getLine(bool enableAskUpAndDown=0) {
     char g;
     string ans;
     while (1) {
         g=myGetch();
+        if (enableAskUpAndDown) {
+#ifdef _WIN32
+            if (g==0||224) {
+                char g2=myGetch();
+                if (g2==73) {// PGUP
+                    if (g4=='~') {upDown(0,ans);} else {ans+=g2;}}
+                if (g2==81) {// PGDN
+
+                    if (g4=='~') {upDown(1,ans);} else {ans+=g2;}}
+
+            }
+#else
+            if (g==27) {
+                char g2=myGetch();
+                if (g2=='[') {
+                    char g3=myGetch();
+                    if (g3=='5') {// PGUP
+                        char g4=myGetch();
+                        if (g4=='~') {upDown(0,ans);} else {ans+=g2;ans+=g3;ans+=g4;}}
+                    if (g3=='6') {// PGDN
+                        char g4=myGetch();
+                        if (g4=='~') {upDown(1,ans);} else {ans+=g2;ans+=g3;ans+=g4;}}
+                }
+            }
+#endif
+        }
         if (g=='\n'||g=='\r'){break;}
         if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
         if ('a'<=g&&g<='z'){g-=('a'-'A');}
@@ -140,7 +190,6 @@ int main(int argc,char* argv[]){
     int step=-1;
     string header="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",prompt="B:\\>";
     string ts;
-    int pageNow=0;
     while(keepRunning) {
         input="";
         switch (state) {
@@ -297,7 +346,7 @@ int main(int argc,char* argv[]){
                             else {typeString(ts+qs[step].q+"\n\n",15);}
                             for (int i=1;i<=15;i++) {
                                 for (int j=1;j<=3;j++) {
-                                    int num=(j-1)*15+i+45*pageNow;
+                                    int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
                                     if (num>ln) {break;}
                                     // output options
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
@@ -309,6 +358,9 @@ int main(int argc,char* argv[]){
                                 printf("\n");
                             }
                             printf(texts[20].c_str());
+                            printf("\033[s");
+                            fflush(stdout);
+                            input=getLine(1);
                         } else {
                             typeString(ts+qs[step].q+"\n\n",15);
                             if (col==1) {
