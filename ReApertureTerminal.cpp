@@ -270,23 +270,74 @@ int main(int argc,char* argv[]){
                     ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
                     if (qs[step].t=='T') {typeString(ts+qs[step].q+"\n\n> ",25);}
                     else {
-                        if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
-                        else {typeString(ts+qs[step].q+"\n\n",15);}
-                        /*TODO*/
+                        /*--------TODO--------*/
                         int ln=qs[step].c.size()-1;
-                        int xadd=180,xcols=3;
-                        if(ln>150||ln<=48) {
-                            xadd=240;
-                            xcols=2;
-                        }
-                        for (int i=1;i<=ln;i++) {
-                            for (int j=1;j<=(int(log10(ln)))-(int(log10(i)));j++) {
-                                printf("0");
+                        int col=4;
+                        if (ln>150||ln<=48) {col=3;}
+                        if (ln<=19) {col=1;}
+                        if (step==3) {
+                            typeString(ts+qs[step].q+"\n\n",15);
+                            for (int i=1;i<=16;i++) {
+                                for (int j=1;j<=2;j++) {
+                                    int num=(j-1)*16+i;
+                                    if (num>ln) {break;}
+                                    // output options
+                                    for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
+                                    printf("%d] %s",num,qs[step].c[i].c_str());
+                                    if (j!=2) {
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[i].length());k++) {printf(" ");}
+                                    }
+                                }
+                                printf("\n");
                             }
-                            printf("%d] %s\033[1G\033[1B",i,qs[step].c[i].c_str());
+                            printf("\n> ");
+                            fflush(stdout);
+                        } else if (step==21) {
+                            if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
+                            else {typeString(ts+qs[step].q+"\n\n",15);}
+                            for (int i=1;i<=15;i++) {
+                                for (int j=1;j<=3;j++) {
+                                    int num=(j-1)*15+i+45*pageNow;
+                                    if (num>ln) {break;}
+                                    // output options
+                                    for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
+                                    printf("%d] %s",num,qs[step].c[i].c_str());
+                                    if (j!=3) {
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[i].length());k++) {printf(" ");}
+                                    }
+                                }
+                                printf("\n");
+                            }
+                            printf(texts[20].c_str());
+                        } else {
+                            typeString(ts+qs[step].q+"\n\n",15);
+                            if (col==1) {
+                                for (int i=1;i<=ln;i++) {
+                                    int num=i;
+                                    // output options
+                                    for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
+                                    printf("%d] %s",num,qs[step].c[i].c_str());
+                                    printf("\n");
+                                }
+                            } else {
+                                for (int i=1;i<=19;i++) {
+                                    for (int j=1;j<=col;j++) {
+                                        int num=(j-1)*19+i;
+                                        if (num>ln) {break;}
+                                        // output options
+                                        for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
+                                        printf("%d] %s",num,qs[step].c[i].c_str());
+                                        if (j!=col) {
+                                            for (int k=1;k<=120/col-(int(log10(ln))+2+qs[step].c[i].length());k++) {printf(" ");}
+                                        }
+                                    }
+                                    printf("\n");
+                                }
+                            }
+                            printf("\n> ");
+                            fflush(stdout);
                         }
-                        fflush(stdout);
-                        /*TODO*/
+                        /*--------TODO--------*/
                     }
                     input=getLine();
                     if (input=="QUIT") {state=LOGINED;}
