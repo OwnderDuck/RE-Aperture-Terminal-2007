@@ -63,7 +63,11 @@ int pageNow=0;
 void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
     pageNow+=(int)x*2-1;
     if (pageNow<0) {pageNow=0;}
+    if (pageNow>22) {pageNow=22;}
     printf("\033[2J\033[u%s\033[H",ans.c_str());
+
+    string ts="Form FORMS-EN-2873-FORM - Page "+to_string(21)+"\n\n";
+    int ln=qs[21].c.size()-1;
     if(pageNow>0) {typeString(ts+qs[21].q+"\n\n",1);}
     else {typeString(ts+qs[21].q+"\n\n",15);}
     for (int i=1;i<=15;i++) {
@@ -80,7 +84,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
         printf("\n");
     }
     printf(texts[20].c_str());
-    printf("\033[s");
+    printf(ans.c_str());
     fflush(stdout);
 }
 string getLine(bool enableAskUpAndDown=0) {
@@ -93,10 +97,10 @@ string getLine(bool enableAskUpAndDown=0) {
             if (g==0||224) {
                 char g2=myGetch();
                 if (g2==73) {// PGUP
-                    if (g4=='~') {upDown(0,ans);} else {ans+=g2;}}
+                    if (g4=='~') {upDown(0,ans);continue;} else {ans+=g2;}}
                 if (g2==81) {// PGDN
 
-                    if (g4=='~') {upDown(1,ans);} else {ans+=g2;}}
+                    if (g4=='~') {upDown(1,ans);continue;} else {ans+=g2;}}
 
             }
 #else
@@ -106,10 +110,10 @@ string getLine(bool enableAskUpAndDown=0) {
                     char g3=myGetch();
                     if (g3=='5') {// PGUP
                         char g4=myGetch();
-                        if (g4=='~') {upDown(0,ans);} else {ans+=g2;ans+=g3;ans+=g4;}}
+                        if (g4=='~') {upDown(0,ans);continue;} else {ans+=g2;ans+=g3;ans+=g4;}}
                     if (g3=='6') {// PGDN
                         char g4=myGetch();
-                        if (g4=='~') {upDown(1,ans);} else {ans+=g2;ans+=g3;ans+=g4;}}
+                        if (g4=='~') {upDown(1,ans);continue;} else {ans+=g2;ans+=g3;ans+=g4;}}
                 }
             }
 #endif
@@ -182,6 +186,7 @@ int main(int argc,char* argv[]){
     rawMode(1);
     initQ();
     initTexts();
+    printf("\033[?1049h");
     printf("\033[2J\033[H");
     fflush(stdout);
     char g;
@@ -317,9 +322,12 @@ int main(int argc,char* argv[]){
 
                 } else {
                     ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
-                    if (qs[step].t=='T') {typeString(ts+qs[step].q+"\n\n> ",25);}
+                    if (qs[step].t=='T') {
+                        typeString(ts+qs[step].q+"\n\n> ",25);
+                        input=getLine(); if (input=="QUIT") {state=LOGINED;}
+                        step++;
+                    }
                     else {
-                        /*--------TODO--------*/
                         int ln=qs[step].c.size()-1;
                         int col=4;
                         if (ln>150||ln<=48) {col=3;}
@@ -339,8 +347,23 @@ int main(int argc,char* argv[]){
                                 }
                                 printf("\n");
                             }
-                            printf("\n> ");
+                            printf("\n");
+                            gotoBecauseInputIsllegal_1:;
+                            printf("\r\033[2K> ");
                             fflush(stdout);
+                            input=getLine();
+                            if (input=="QUIT") {state=LOGINED;}
+                            for (int i=0;i<input.size();i++) {if (!(input[i]==' '||(input[i]>='0'&&input[i]<='9'))) {goto gotoBecauseInputIsllegal_1;}}
+                            int l=input.find_first_not_of(' ');
+                            int r=input.find_last_not_of(' ');
+                            if (l==string::npos) {goto gotoBecauseInputIsllegal_1;}
+                            input=input.substr(l,r-l+1);
+                            int p=input.find_first_not_of('0');
+                            if (p==string::npos) {goto gotoBecauseInputIsllegal_1;}
+                            input=input.substr(p);
+                            for (int i=0;i<input.size();i++) {if (input[i]==' ') {goto gotoBecauseInputIsllegal_1;}}
+                            if (stoi(input)>ln) {goto gotoBecauseInputIsllegal_1;}
+                            step++;
                         } else if (step==21) {
                             if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
                             else {typeString(ts+qs[step].q+"\n\n",15);}
@@ -357,10 +380,25 @@ int main(int argc,char* argv[]){
                                 }
                                 printf("\n");
                             }
+                            printf("\n");
+                            gotoBecauseInputIsllegal_2:;
+                            printf("\r\033[2K");
                             printf(texts[20].c_str());
                             printf("\033[s");
                             fflush(stdout);
                             input=getLine(1);
+                            if (input=="QUIT") {state=LOGINED;}
+                            for (int i=0;i<input.size();i++) {if (!(input[i]==' '||(input[i]>='0'&&input[i]<='9'))) {goto gotoBecauseInputIsllegal_2;}}
+                            int l=input.find_first_not_of(' ');
+                            int r=input.find_last_not_of(' ');
+                            if (l==string::npos) {goto gotoBecauseInputIsllegal_2;}
+                            input=input.substr(l,r-l+1);
+                            int p=input.find_first_not_of('0');
+                            if (p==string::npos) {goto gotoBecauseInputIsllegal_2;}
+                            input=input.substr(p);
+                            for (int i=0;i<input.size();i++) {if (input[i]==' ') {goto gotoBecauseInputIsllegal_2;}}
+                            if (stoi(input)>ln) {goto gotoBecauseInputIsllegal_2;}
+                            step++;
                         } else {
                             typeString(ts+qs[step].q+"\n\n",15);
                             if (col==1) {
@@ -386,14 +424,25 @@ int main(int argc,char* argv[]){
                                     printf("\n");
                                 }
                             }
-                            printf("\n> ");
+                            printf("\n");
+                            gotoBecauseInputIsllegal_3:;
+                            printf("\r\033[2K> ");
                             fflush(stdout);
+                            input=getLine();
+                            if (input=="QUIT") {state=LOGINED;}
+                            for (int i=0;i<input.size();i++) {if (!(input[i]==' '||(input[i]>='0'&&input[i]<='9'))) {goto gotoBecauseInputIsllegal_3;}}
+                            int l=input.find_first_not_of(' ');
+                            int r=input.find_last_not_of(' ');
+                            if (l==string::npos) {goto gotoBecauseInputIsllegal_3;}
+                            input=input.substr(l,r-l+1);
+                            int p=input.find_first_not_of('0');
+                            if (p==string::npos) {goto gotoBecauseInputIsllegal_3;}
+                            input=input.substr(p);
+                            for (int i=0;i<input.size();i++) {if (input[i]==' ') {goto gotoBecauseInputIsllegal_3;}}
+                            if (stoi(input)>ln) {goto gotoBecauseInputIsllegal_3;}
+                            step++;
                         }
-                        /*--------TODO--------*/
                     }
-                    input=getLine();
-                    if (input=="QUIT") {state=LOGINED;}
-                    step++;
                 }
                 break;
         }

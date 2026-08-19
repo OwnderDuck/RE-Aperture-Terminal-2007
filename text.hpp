@@ -62,7 +62,7 @@ inline void initTexts() {
     texts[17]="Below is your form FORMS-EN-2873-FORM Unique Indentity Number (Plus Letters) (UIN(+L)):\n\n\n";
     texts[18]="\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ";
     texts[19]="If this is an actual plea for help in response to a hazardous material spill, an explosion, a fire on your person, radiation poisoning, a choking gas of unknown origin, eye trauma resulting from the use of an emergency eye wash station on floors three, four, or eleven, an animal malfunction, or any other injurious experimental equipment failure, please remain at your workstation. A Crisis Response Team has already been mobilized to deliberate on a response to your crisis.\n\nIf you need help accessing the system, please refer to your User Handbook.\n\n";
-    texts[20]="\n[2314 total choices : PGUP/PGDN to navigate]> ";
+    texts[20]="[2314 total choices : PGUP/PGDN to navigate]> ";
 }
 struct Q {
     std::string q;
