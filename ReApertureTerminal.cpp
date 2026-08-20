@@ -96,12 +96,8 @@ string getLine(bool enableAskUpAndDown=0) {
 #ifdef _WIN32
             if (g==0||224) {
                 char g2=myGetch();
-                if (g2==73) {// PGUP
-                    if (g4=='~') {upDown(0,ans);continue;} else {ans+=g2;}}
-                if (g2==81) {// PGDN
-
-                    if (g4=='~') {upDown(1,ans);continue;} else {ans+=g2;}}
-
+                if (g2==73) {upDown(0,ans);continue;} else {ans+=g2;}// PGUP
+                if (g2==81) {upDown(1,ans);continue;} else {ans+=g2;}// PGDN
             }
 #else
             if (g==27) {

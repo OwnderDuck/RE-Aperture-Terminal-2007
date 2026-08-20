@@ -1,5 +1,5 @@
-#ifndef QUESTION_HPP
-#define QUESTION_HPP
+#ifndef TEXT_HPP
+#define TEXT_HPP
 
 #include <string>
 #include <vector>
@@ -3070,4 +3070,4 @@ inline void initQ() {
     qs[50].q="Gender";
     qs[50].t='T';
 }
-#endif //QUESTION_HPP
+#endif //TEXT_HPP
