@@ -121,7 +121,7 @@ string getLine(bool enableAskUpAndDown=0) {
 #endif
         }
         if (g=='\n'||g=='\r'){break;}
-        if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
+        if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();printf("\b \b");fflush(stdout);}continue;}
         if ('a'<=g&&g<='z'){g-=('a'-'A');}
         if (ans.size()<65){
             ans+=g;
@@ -236,7 +236,7 @@ int main(int argc,char* argv[]){
                 while (1) {
                     g=myGetch();
                     if (g=='\n'||g=='\r'){break;}
-                    if (g==127||g==8) {if (!password.empty()) {password.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
+                    if (g==127||g==8) {if (!password.empty()) {password.pop_back();printf("\b \b");fflush(stdout);}continue;}
                     if ('a'<=g&&g<='z'){g-=('a'-'A');}
                     if (password.size()<65){
                         password+=g;
