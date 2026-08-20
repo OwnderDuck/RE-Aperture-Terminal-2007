@@ -94,10 +94,10 @@ string getLine(bool enableAskUpAndDown=0) {
         g=myGetch();
         if (enableAskUpAndDown) {
 #ifdef _WIN32
-            if (g==0||224) {
+            if (g==0||g==224) {
                 char g2=myGetch();
-                if (g2==73) {upDown(0,ans);continue;} else {ans+=g2;}// PGUP
-                if (g2==81) {upDown(1,ans);continue;} else {ans+=g2;}// PGDN
+                if (g2==73) {upDown(0,ans);continue;}// PGUP
+                if (g2==81) {upDown(1,ans);continue;}// PGDN
             }
 #else
             if (g==27) {
@@ -106,10 +106,10 @@ string getLine(bool enableAskUpAndDown=0) {
                     char g3=myGetch();
                     if (g3=='5') {// PGUP
                         char g4=myGetch();
-                        if (g4=='~') {upDown(0,ans);continue;} else {ans+=g2;ans+=g3;ans+=g4;}}
+                        if (g4=='~') {upDown(0,ans);continue;}}
                     if (g3=='6') {// PGDN
                         char g4=myGetch();
-                        if (g4=='~') {upDown(1,ans);continue;} else {ans+=g2;ans+=g3;ans+=g4;}}
+                        if (g4=='~') {upDown(1,ans);continue;}}
                 }
             }
 #endif
@@ -117,9 +117,11 @@ string getLine(bool enableAskUpAndDown=0) {
         if (g=='\n'||g=='\r'){break;}
         if (g==127||g==8) {if (!ans.empty()) {ans.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
         if ('a'<=g&&g<='z'){g-=('a'-'A');}
-        ans+=g;
-        cout<<g;
-        fflush(stdout);
+        if (ans.size()<65){
+            ans+=g;
+            printf("%c",g);
+            fflush(stdout);
+        }
     }
     return ans;
 }
@@ -224,9 +226,11 @@ int main(int argc,char* argv[]){
                     if (g=='\n'||g=='\r'){break;}
                     if (g==127||g==8) {if (!password.empty()) {password.pop_back();cout<<"\b \b";fflush(stdout);}continue;}
                     if ('a'<=g&&g<='z'){g-=('a'-'A');}
-                    password+=g;
-                    printf("*");
-                    fflush(stdout);
+                    if (password.size()<65){
+                        password+=g;
+                        printf("*");
+                        fflush(stdout);
+                    }
                 }
                 if (username=="CJOHNSON") {
                     if (password=="TIER3") {header="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
@@ -249,7 +253,7 @@ int main(int argc,char* argv[]){
                 else if (input=="PLAY") {message=texts[5];}
                 else if (input=="PLAY PORTAL") {/*PORTAL!*/;state=LOGINED;}
                 else if (input=="INTERROGATE") {message=texts[6];}
-                else if (input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E') {if (username=="CJOHNSON") {message=texts[7];} else {message=texts[8];}}
+                else if (input.size()>=13&&input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E'&&input[11]==' ') {if (username=="CJOHNSON") {message=texts[7];} else {message=texts[8];}}
                 else if (input=="TAPEDISK") {message=texts[9];}
                 else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}}
                 else if (input=="APPLY"||input=="APPLY.EXE") {step=-1;state=APPLY;}
