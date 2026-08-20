@@ -78,7 +78,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
             for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
             printf("%d] %s",num,qs[21].c[num].c_str());
             if (j!=3) {
-                for (int k=1;k<=120/3-(int(log10(ln))+2+qs[21].c[num].length());k++) {printf(" ");}
+                for (int k=1;k<=120/3-(int(log10(ln))+2+qs[21].c[num].length()/3*2);k++) {printf(" ");}
             }
         }
         printf("\n");
@@ -189,7 +189,7 @@ int main(int argc,char* argv[]){
     bool passwordWrong=0;
     bool bossKeyMode=0;
     int step=-1;
-    string header="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",prompt="B:\\>";
+    string header="GLaDOS v1.07 (c) 1982 光圈科技",message="",prompt="B:\\>";
     string ts;
     while(keepRunning) {
         input="";
@@ -205,14 +205,14 @@ int main(int argc,char* argv[]){
                 break;
             case USERNAME:
                 printf("\033[2J\033[H");
-                typeString("Username> ",75);
+                typeString("用户名> ",75);
                 username=getLine();
                 if (username.length()>2) {state=PASSWORD;}
                 break;
             case PASSWORD:
                 printf("\033[2J\033[H");
-                if (!passwordWrong) {typeString("Password> ",75);}
-                else {typeString("ERROR 07 [Incorrect Password]\n\nPassword> ",25);}
+                if (!passwordWrong) {typeString("密码> ",75);}
+                else {typeString("ERROR 07 [密码错误]\n\n密码> ",25);}
                 g=0;
                 password="";
                 while (1) {
@@ -225,7 +225,7 @@ int main(int argc,char* argv[]){
                     fflush(stdout);
                 }
                 if (username=="CJOHNSON") {
-                    if (password=="TIER3") {header="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
+                    if (password=="TIER3") {header="GLaDOS v1.07a (c) 1982 光圈科技";prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
                     else {passwordWrong=1;}
                 } else {
                     if (password=="PORTAL"||password=="PORTALS") {passwordWrong=0;state=LOGINED;}
@@ -249,7 +249,7 @@ int main(int argc,char* argv[]){
                 else if (input=="TAPEDISK") {message=texts[9];}
                 else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}}
                 else if (input=="APPLY"||input=="APPLY.EXE") {step=-1;state=APPLY;}
-                else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
+                else {message="\n\nERROR 24 [File \'"+input+"\' 未找到]";}
                 break;
             case CAKE:
                 if (!bossKeyMode) {
@@ -342,7 +342,7 @@ int main(int argc,char* argv[]){
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                     printf("%d] %s",num,qs[step].c[num].c_str());
                                     if (j!=2) {
-                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length()/3*2);k++) {printf(" ");}
                                     }
                                 }
                                 printf("\n");
@@ -369,13 +369,13 @@ int main(int argc,char* argv[]){
                             else {typeString(ts+qs[step].q+"\n\n",15);}
                             for (int i=1;i<=15;i++) {
                                 for (int j=1;j<=3;j++) {
-                                    int num=(j-1)*15+i;
+                                    int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
                                     if (num>ln) {break;}
                                     // output options
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                     printf("%d] %s",num,qs[step].c[num].c_str());
                                     if (j!=3) {
-                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length()/3*2);k++) {printf(" ");}
                                     }
                                 }
                                 printf("\n");
@@ -418,7 +418,7 @@ int main(int argc,char* argv[]){
                                         for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                         printf("%d] %s",num,qs[step].c[num].c_str());
                                         if (j!=col) {
-                                            for (int k=1;k<=120/col-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
+                                            for (int k=1;k<=120/col-(int(log10(ln))+2+qs[step].c[num].length()/3*2);k++) {printf(" ");}
                                         }
                                     }
                                     printf("\n");
