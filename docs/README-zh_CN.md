@@ -20,9 +20,9 @@ g++就行,至少C++11，推荐使用更新的C++标准。
 ## 与原版的关系、素材与版权
 本项目是一个非官方的社区重实现项目。\
 原版 Aperture Science Terminal 于 2007 年通过 aperturescience.com 提供，并使用 Adobe Flash 构建。\
-本项目不代表 Valve Corporation、Aperture Science 或其他相关权利方。\
-原版名称、文本、角色、商标及其他相关内容的权利归其各自权利人所有。\
-本项目不声称拥有上述内容的版权。
+本项目的 C++ 源代码均为独立实现。Aperture Science Terminal 的原始文本以及基于原作衍生的文本均属于第三方内容，不在本项目 MIT 许可证的授权范围内。此类内容的相关权利仍归 Valve Corporation 或其相应权利人所有。\
+本项目与 Valve Corporation、Aperture Science 或任何其他相关权利人均无关联，也未获得其认可或授权。\
+本项目不主张拥有任何第三方名称、文本、角色、商标或其他相关内容的所有权。
 ## 许可证
 本项目代码采用 [MIT License](LICENSE) 授权。
 

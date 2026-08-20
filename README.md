@@ -16,9 +16,9 @@ Just `g++`. Requires at least C++11. a newer C++ standard is recommended.
 ## Relationship to the Original & Copyright
 This project is an unofficial community reimplementation.\
 The original Aperture Science Terminal was hosted on aperturescience.com in 2007 and was built with Adobe Flash.\
+The C++ source code is independently implemented to this project. Original text and text derived from the original Aperture Science Terminal are third-party content and are not covered by this project's MIT License. Such content remains the property of Valve Corporation or its respective rights holders.\
 This project is not affiliated with or endorsed by Valve Corporation, Aperture Science, or any other relevant rights holders.\
-The original names, text, characters, trademarks, and other related content remain the property of their respective rights holders.\
-This project does not claim ownership of any of the aforementioned content.
+This project does not claim ownership of any third-party names, text, characters, trademarks, or other related content.
 ## License
 The source code of this project is licensed under the [MIT License](LICENSE).
 
