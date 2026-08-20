@@ -63,6 +63,8 @@ inline void initTexts() {
     texts[18]="\n\n\nPlease memorize your UIN(+L), as you may be required to recite it from memory as proof. The opening and closing braces are decorative and should not be memorized.\n\nWhen you are finished memorizing your case sensitive UIN(+L), type \"CONTINUE\" to proceed.\n\n\n> ";
     texts[19]="If this is an actual plea for help in response to a hazardous material spill, an explosion, a fire on your person, radiation poisoning, a choking gas of unknown origin, eye trauma resulting from the use of an emergency eye wash station on floors three, four, or eleven, an animal malfunction, or any other injurious experimental equipment failure, please remain at your workstation. A Crisis Response Team has already been mobilized to deliberate on a response to your crisis.\n\nIf you need help accessing the system, please refer to your User Handbook.\n\n";
     texts[20]="[2314 total choices : PGUP/PGDN to navigate]> ";
+    texts[21]="Congratulations!\n\nYou have finished the:\n\nENRICHMENT CENTER TEST SUBJECT APPLICATION\nFORMS-EN-2873-FORM (PART1: PERSONALITY & GENERAL KNOWLEDGE)\n\nPlease enter your 64 digit UIN(+L) to complete the process.\n\n> ";
+    texts[22]="The entered UIN(+L) does not match your assigned UIN(+L).\n\nPlease REMAIN AT YOUR WORKSTATION until a Computer-Aided-Enrichment Crisis Team arrives.\n\n";
 }
 struct Q {
     std::string q;
@@ -2844,7 +2846,7 @@ inline void initQ() {
     qs[26].c.resize(3);
     qs[26].c[1]="Yes";
     qs[26].c[2]="No";
-    qs[27].q="Please acknowledge before continuing: ^^I understand that my responses to all items in this qnaire are the property of Aperture Science. As such, they will remain strictly confidential, though they may be used to distribute prizes and/or initiate, prolong, or modify the invasive properties of authorized qing, investigation, testing, and surveillance.";
+    qs[27].q="Please acknowledge before continuing: \n\nI understand that my responses to all items in this qnaire are the property of Aperture Science. As such, they will remain strictly confidential, though they may be used to distribute prizes and/or initiate, prolong, or modify the invasive properties of authorized qing, investigation, testing, and surveillance.";
     qs[27].t='C';
     qs[27].c.resize(2);
     qs[27].c[1]="I have read all or most of the above.";
@@ -2936,7 +2938,7 @@ inline void initQ() {
     qs[39].c[8]="8";
     qs[39].c[9]="9";
     qs[39].c[10]="10 - Worst Pain Imaginable";
-    qs[40].q="Complete the following statement with the answer that DOES NOT apply to you:^I am often:";
+    qs[40].q="Complete the following statement with the answer that DOES NOT apply to you:\nI am often:";
     qs[40].t='R';
     qs[40].c.resize(11);
     qs[40].c[1]="worried that life is vague and unreal";

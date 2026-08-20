@@ -319,7 +319,11 @@ int main(int argc,char* argv[]){
                     if (input=="CONTINUE") {step++;}
                     else {printf("\033[2K\033[G> ");fflush(stdout);goto goto0;}
                 } else if (step==51){
-
+                    typeString(texts[21],10);
+                    input=getLine();
+                    printf("\033[2J\033[H");
+                    typeString(texts[22],10);
+                    while (1) {printf("\033[2K\033[G");fflush(stdout);getLine();}
                 } else {
                     ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
                     if (qs[step].t=='T') {
