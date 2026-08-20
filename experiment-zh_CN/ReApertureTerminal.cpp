@@ -189,8 +189,10 @@ BOOL WINAPI ctrlHandler(DWORD ctrlType) {
     if (ctrlType==CTRL_C_EVENT||ctrlType==CTRL_BREAK_EVENT) {
         SetConsoleOutputCP(oldOutputCP);
         SetConsoleCP(oldInputCP);
-        printf("\033[?1049l");
-        fflush(stdout);
+        DWORD written;
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        WriteConsoleA(hOut,"\033[?1049l", sizeof("\033[?1049l")-1,&written,NULL);
+        ExitProcess(0);
         return TRUE;
     }
     return FALSE;
