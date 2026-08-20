@@ -177,6 +177,26 @@ string getLocalUid(){
     for (int i=0;i<4;i++) {ss<<hex<<setw(16)<<setfill('0')<<gen();}
     return ss.str();
 }
+#ifdef _WIN32
+BOOL WINAPI ctrlHandler(DWORD ctrlType) {
+    if (ctrlType==CTRL_C_EVENT||ctrlType==CTRL_BREAK_EVENT) {
+        SetConsoleOutputCP(oldOutputCP);
+        SetConsoleCP(oldInputCP);
+        printf("\033[?1049l");
+        fflush(stdout);
+        return TRUE;
+    }
+    return FALSE;
+}
+#else
+#include <csignal>
+void safeExit(int s) {
+    printf("\033[?1049l");
+    fflush(stdout);
+    rawMode(0);
+    exit(0);
+}
+#endif
 int main(int argc,char* argv[]){
     for(int i=1;i<argc;i++) {
         string arg=argv[i];
@@ -191,6 +211,11 @@ int main(int argc,char* argv[]){
     stateEnum state=UNLOGIN;
     string username,password;
     rawMode(1);
+#ifdef _WIN32
+    SetConsoleCtrlHandler(ctrlHandler,TRUE);
+#else
+    signal(SIGINT,safeExit);
+#endif
     initQ();
     initTexts();
     printf("\033[?1049h");
