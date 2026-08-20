@@ -8,9 +8,11 @@ There is a Aperture Science Terminal built with Flash in [aperturescience.com](h
 
 Now I reimplement it in C++.
 ## Status
-ing...
+Almost complete — only two easter eggs left.
 ## Build
-just `g++`
+Just `g++`. Requires at least C++11. a newer C++ standard is recommended.
+
+`g++ -std=c++17 -O2 ReApertureTerminal.cpp -o ReApertureTerminal`
 ## Relationship to the Original & Copyright
 This project is an unofficial community reimplementation.\
 The original Aperture Science Terminal was hosted on aperturescience.com in 2007 and was built with Adobe Flash.\

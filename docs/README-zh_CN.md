@@ -6,11 +6,12 @@
 
 本项目旨在用 C++ 重现它。
 ## 项目状态
-还在工作
+几乎都完成了，还差两个彩蛋没有实现。
 ## 构建
-g++就行了
-## 与原版的关系、素材与版权
+g++就行,至少C++11，推荐使用更新的C++标准。
 
+`g++ -std=c++17 -O2 ReApertureTerminal.cpp -o ReApertureTerminal`
+## 与原版的关系、素材与版权
 本项目是一个非官方的社区重实现项目。\
 原版 Aperture Science Terminal 于 2007 年通过 aperturescience.com 提供，并使用 Adobe Flash 构建。\
 本项目不代表 Valve Corporation、Aperture Science 或其他相关权利方。\
