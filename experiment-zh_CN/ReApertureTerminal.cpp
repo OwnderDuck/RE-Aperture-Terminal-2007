@@ -251,9 +251,9 @@ int main(int argc,char* argv[]){
                 else if (input=="INTERROGATE") {message=texts[6];}
                 else if (input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E') {if (username=="CJOHNSON") {message=texts[7];} else {message=texts[8];}}
                 else if (input=="TAPEDISK") {message=texts[9];}
-                else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}}
+                else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [文件 \'"+input+"\' 未找到]";}}
                 else if (input=="APPLY"||input=="APPLY.EXE") {step=-1;state=APPLY;}
-                else {message="\n\nERROR 24 [File \'"+input+"\' 未找到]";}
+                else {message="\n\nERROR 24 [文件 \'"+input+"\' 未找到]";}
                 break;
             case CAKE:
                 if (!bossKeyMode) {
@@ -325,7 +325,7 @@ int main(int argc,char* argv[]){
                     typeString(texts[22],10);
                     while (1) {printf("\033[2K\033[G");fflush(stdout);getLine();}
                 } else {
-                    ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
+                    ts="Form FORMS-EN-2873-FORM - 第 "+to_string(step)+" 页\n\n";
                     if (qs[step].t=='T') {
                         typeString(ts+qs[step].q+"\n\n> ",25);
                         input=getLine(); if (input=="QUIT") {state=LOGINED;}
