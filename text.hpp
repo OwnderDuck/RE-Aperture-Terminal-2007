@@ -1,3 +1,6 @@
+// Third-party content.
+// Copyright © Valve Corporation.
+// See README for attribution and licensing information.
 #ifndef TEXT_HPP
 #define TEXT_HPP
 

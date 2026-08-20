@@ -1,3 +1,8 @@
+// Copyright (c) 2026 OwnderDuck
+// SPDX-License-Identifier: MIT
+
+// Third-party content identified in this file is excluded from this license.
+// See README for details.
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -195,7 +200,14 @@ int main(int argc,char* argv[]){
     bool passwordWrong=0;
     bool bossKeyMode=0;
     int step=-1;
-    string header="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.",message="",prompt="B:\\>";
+    string header=
+
+// Third-party text from Valve Corporation.
+// Not covered by the MIT License.
+"GLaDOS v1.07 (c) 1982 Aperture Science, Inc.";
+
+    string message="",prompt="B:\\>";
+
     string ts;
     while(keepRunning) {
         input="";
@@ -233,7 +245,13 @@ int main(int argc,char* argv[]){
                     }
                 }
                 if (username=="CJOHNSON") {
-                    if (password=="TIER3") {header="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
+                    if (password=="TIER3") {header=
+
+// Third-party text from Valve Corporation.
+// Not covered by the MIT License.
+"GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";
+
+                        prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
                     else {passwordWrong=1;}
                 } else {
                     if (password=="PORTAL"||password=="PORTALS") {passwordWrong=0;state=LOGINED;}
