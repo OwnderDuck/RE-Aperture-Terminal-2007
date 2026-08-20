@@ -207,7 +207,6 @@ int main(int argc,char* argv[]){
 "GLaDOS v1.07 (c) 1982 Aperture Science, Inc.";
 
     string message="",prompt="B:\\>";
-
     string ts;
     while(keepRunning) {
         input="";

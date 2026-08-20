@@ -1,3 +1,7 @@
+// Third-party-derived content, including translations based on
+// Valve Corporation's works, is excluded from this license.
+// See README for details.
+
 /*我压力一个豆包翻译的，不准确*/
 #ifndef TEXT_HPP
 #define TEXT_HPP
