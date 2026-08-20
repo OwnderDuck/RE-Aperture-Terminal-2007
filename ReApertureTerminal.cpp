@@ -175,6 +175,10 @@ int main(int argc,char* argv[]){
         string arg=argv[i];
         if (arg=="-skip") {skip=1;}
     }
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
     keepRunning=1;
     string uid=getLocalUid();
     stateEnum state=UNLOGIN;
