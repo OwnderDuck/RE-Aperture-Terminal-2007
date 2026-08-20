@@ -3,6 +3,14 @@
 
 // Third-party content identified in this file is excluded from this license.
 // See README for details.
+#ifdef _WIN32
+    #include <windows.h>
+    #include <conio.h>
+#else
+    #include <unistd.h>
+    #include <termios.h>
+    #include <csignal>
+#endif
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,13 +24,9 @@ using namespace std;
 bool skip=0;
 bool skipToApply=0;
 #ifdef _WIN32
-    #include <windows.h>
-    #include <conio.h>
     static inline int myGetch(void) {return _getch();}
     void rawMode(bool) {}
 #else
-    #include <unistd.h>
-    #include <termios.h>
     termios oldTerm;
     void rawMode(bool enable) {
         if (enable) {
@@ -178,6 +182,8 @@ string getLocalUid(){
     return ss.str();
 }
 #ifdef _WIN32
+UINT oldOutputCP=0;
+UINT oldInputCP=0;
 BOOL WINAPI ctrlHandler(DWORD ctrlType) {
     if (ctrlType==CTRL_C_EVENT||ctrlType==CTRL_BREAK_EVENT) {
         SetConsoleOutputCP(oldOutputCP);
@@ -189,7 +195,6 @@ BOOL WINAPI ctrlHandler(DWORD ctrlType) {
     return FALSE;
 }
 #else
-#include <csignal>
 void safeExit(int s) {
     printf("\033[?1049l");
     fflush(stdout);
@@ -203,6 +208,8 @@ int main(int argc,char* argv[]){
         if (arg=="-skip") {skip=1;}
     }
 #ifdef _WIN32
+    oldOutputCP=GetConsoleOutputCP();
+    oldInputCP=GetConsoleCP();
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 #endif
