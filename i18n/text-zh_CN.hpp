@@ -7,6 +7,7 @@
 #define TEXT_HPP
 #include <string>
 #include <vector>
+inline double ratioOfCharacterCntToDisplayWidth=1.5;
 inline std::string texts[114];
 inline void initTexts() {
     texts[0]="                                                                                                                \n                                                                                                                                                                                                                      \n磁盘卷 255 [工作站 CJOHNSON]\n\n     I  019  APPLY.EXE\n     I  004  NOTES.EXE\n\n2 个文件，占用 23 个块\n\n";
@@ -68,6 +69,14 @@ inline void initTexts() {
     texts[20]="[共计2314个选项：PGUP/PGDN翻页]> ";
     texts[21]="恭喜！\n\n你已经完成：\n\n强化中心测试受试者申请\nFORMS‑EN‑2873‑FORM（第一部分：性格与常识测评）\n\n请输入你的64位UIN(+L)编号完成申请流程。\n\n> ";
     texts[22]="输入的UIN(+L)与你的分配编号不匹配。\n\n请待在你的工位原地等候，直到计算机辅助强化危机响应小组抵达。\n\n";
+    texts[23]="GLaDOS v1.07 (c) 1982 光圈科技";
+    texts[24]="用户名> ";
+    texts[25]="密码> ";
+    texts[26]="ERROR 07 [错误的密码]\n\n";
+    texts[27]="GLaDOS v1.07a (c) 1982 光圈科技";
+    texts[28]="\n\nERROR 24 [文件 \'";
+    texts[29]="\' 未找到]";
+    texts[30]="Form FORMS-EN-2873-FORM - 页 ";
 }
 struct Q {
     std::string q;

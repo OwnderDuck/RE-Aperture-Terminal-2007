@@ -1,8 +1,5 @@
 // Copyright (c) 2026 OwnderDuck
 // SPDX-License-Identifier: MIT
-
-// Third-party content identified in this file is excluded from this license.
-// See README for details.
 #ifdef _WIN32
     #include <windows.h>
     #include <conio.h>
@@ -19,7 +16,13 @@
 #include <random>
 #include <cstdint>
 #include <cstdio>
-#include "text.hpp"
+#if defined(LANG_EN_US)
+    #include "text.hpp"
+#elif defined(LANG_ZH_CN)
+    #include "i18n/text-zh_CN.hpp"
+#else
+    #include "text.hpp"
+#endif
 using namespace std;
 bool skip=0;
 bool skipToApply=0;
@@ -86,8 +89,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
     if (pageNow<0) {pageNow=0;}
     if (pageNow>22) {pageNow=22;}
     printf("\033[2J\033[u%s\033[H",ans.c_str());
-
-    string ts="Form FORMS-EN-2873-FORM - Page "+to_string(21)+"\n\n";
+    string ts=texts[30]+to_string(21)+"\n\n";
     int ln=qs[21].c.size()-1;
     if(pageNow>0) {typeString(ts+qs[21].q+"\n\n",1);}
     else {typeString(ts+qs[21].q+"\n\n",15);}
@@ -99,7 +101,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
             for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
             printf("%d] %s",num,qs[21].c[num].c_str());
             if (j!=3) {
-                for (int k=1;k<=120/3-(int(log10(ln))+2+qs[21].c[num].length());k++) {printf(" ");}
+                for (int k=1;k<=120/3-(int(log10(ln))+2+qs[21].c[num].length()/ratioOfCharacterCntToDisplayWidth);k++) {printf(" ");}
             }
         }
         printf("\n");
@@ -231,12 +233,7 @@ int main(int argc,char* argv[]){
     bool passwordWrong=0;
     bool bossKeyMode=0;
     int step=-1;
-    string header=
-
-// Third-party text from Valve Corporation.
-// Not covered by the MIT License.
-"GLaDOS v1.07 (c) 1982 Aperture Science, Inc.";
-
+    string header=texts[23];
     string message="",prompt="B:\\>";
     string ts;
     while(keepRunning) {
@@ -253,14 +250,14 @@ int main(int argc,char* argv[]){
                 break;
             case USERNAME:
                 printf("\033[2J\033[H");
-                typeString("Username> ",75);
+                typeString(texts[24],75);
                 username=getLine();
                 if (username.length()>2) {state=PASSWORD;}
                 break;
             case PASSWORD:
                 printf("\033[2J\033[H");
-                if (!passwordWrong) {typeString("Password> ",75);}
-                else {typeString("ERROR 07 [Incorrect Password]\n\nPassword> ",25);}
+                if (!passwordWrong) {typeString(texts[25],75);}
+                else {typeString(texts[26]+texts[25],25);}
                 g=0;
                 password="";
                 while (1) {
@@ -275,13 +272,7 @@ int main(int argc,char* argv[]){
                     }
                 }
                 if (username=="CJOHNSON") {
-                    if (password=="TIER3") {header=
-
-// Third-party text from Valve Corporation.
-// Not covered by the MIT License.
-"GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";
-
-                        prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
+                    if (password=="TIER3") {header=texts[27];prompt="ADMIN> ";passwordWrong=0;state=LOGINED;}
                     else {passwordWrong=1;}
                 } else {
                     if (password=="PORTAL"||password=="PORTALS") {passwordWrong=0;state=LOGINED;}
@@ -303,9 +294,9 @@ int main(int argc,char* argv[]){
                 else if (input=="INTERROGATE") {message=texts[6];}
                 else if (input.size()>=13&&input[0]=='I'&&input[1]=='N'&&input[2]=='T'&&input[3]=='E'&&input[4]=='R'&&input[5]=='R'&&input[6]=='O'&&input[7]=='G'&&input[8]=='A'&&input[9]=='T'&&input[10]=='E'&&input[11]==' ') {if (username=="CJOHNSON") {message=texts[7];} else {message=texts[8];}}
                 else if (input=="TAPEDISK") {message=texts[9];}
-                else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}}
+                else if (input=="NOTES"||input=="NOTES.EXE") {if (username=="CJOHNSON") {state=NOTES;}else {message=texts[28]+input+texts[29];}}
                 else if (input=="APPLY"||input=="APPLY.EXE") {step=-1;state=APPLY;}
-                else {message="\n\nERROR 24 [File \'"+input+"\' not found]";}
+                else {message=texts[28]+input+texts[29];}
                 break;
             case CAKE:
                 if (!bossKeyMode) {
@@ -377,7 +368,7 @@ int main(int argc,char* argv[]){
                     typeString(texts[22],10);
                     while (1) {printf("\033[2K\033[G");fflush(stdout);getLine();}
                 } else {
-                    ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
+                    ts=texts[30]+to_string(step)+"\n\n";
                     if (qs[step].t=='T') { // text only
                         typeString(ts+qs[step].q+"\n\n> ",25);
                         input=getLine(); if (input=="QUIT") {state=LOGINED;}
@@ -431,7 +422,7 @@ int main(int argc,char* argv[]){
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                     printf("%d] %s",num,qs[step].c[num].c_str());
                                     if (j!=3) {
-                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length()/ratioOfCharacterCntToDisplayWidth);k++) {printf(" ");}
                                     }
                                 }
                                 printf("\n");
@@ -474,7 +465,7 @@ int main(int argc,char* argv[]){
                                         for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                         printf("%d] %s",num,qs[step].c[num].c_str());
                                         if (j!=col) {
-                                            for (int k=1;k<=120/col-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
+                                            for (int k=1;k<=120/col-(int(log10(ln))+2+qs[step].c[num].length()/ratioOfCharacterCntToDisplayWidth);k++) {printf(" ");}
                                         }
                                     }
                                     printf("\n");

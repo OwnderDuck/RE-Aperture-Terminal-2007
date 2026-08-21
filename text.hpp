@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+inline double ratioOfCharacterCntToDisplayWidth=1;
 inline std::string texts[114];
 inline void initTexts() {
     texts[0]="                                                                                                                \n                                                                                                                                                                                                                      \nDISK VOLUME 255 [WORKSTATION CJOHNSON]\n\n     I  019  APPLY.EXE\n     I  004  NOTES.EXE\n\n2 FILE(S) IN 23 BLOCKS\n\n";
@@ -56,7 +57,6 @@ inline void initTexts() {
                 "\033[7m    19\033[0m\n"
                 "\033[7m    20\033[0m\n"
                 "\033[7m    21\033[0m\n";
-
     texts[12]="1953 - Aperture Science begins operations as a manufacturer of shower curtains. Early product line provides a very low-tech portal between the inside and outside of your shower. Very little science is actually involved. The name is chosen to make the curtains appear more hygienic.\n\n1956 - Eisenhower administration awards Aperture a contract to provide shower curtains to all branches of the military except the Navy.\n\n1957 - 1975 - Mostly shower curtains.\n\n1978 - Aperture Founder and CEO, Cave Johnson, is exposed to mercury while secretly developing a dangerous mercury-injected rubber sheeting from which he plans to manufacture seven deadly shower curtains to be given as gifts to each member of the House Naval Appropriations committee.\n\n\n[MORE]";
     texts[13]="1979 - Both of Cave Johnson\'s kidneys fail. Brain damaged, dying, and incapable of being convinced that time is not now flowing backwards, Johnson lays out a three tiered R&D program. The results, he says, will \'guarantee the continued success of Aperture Science far into the fast-approaching distant past.\'\n\nTier 1: The Heimlich Counter-Maneuver - A reliable technique for interrupting the life-saving Heimlich Maneuver.\n\nTier 2: The Take-A-Wish Foundation - A charitable organization that will purchase wishes from the parents of terminally ill children and redistribute them to wish-deprived but otherwise healthy adults.\n\nTier 3: \'Some kind of rip in the fabric of space… That would… Well, it\'d be like, I don\'t know, something that would help with the shower curtains I guess. I haven\'t worked this idea out as much as the wish-taking one.\'\n\n\n[MORE]";
     texts[14]="1981 - Diligent Aperture engineers complete the Heimlich Counter-Maneuver and Take-A-Wish Foundation initiatives.  The company announces products related to the research in a lavish, televised ceremony. These products become immediately wildly unpopular.  After a string of very public choking and despondent sick child disasters, senior company officials are summoned before a Senate investigative committee. During these proceedings, an engineer mentions that some progress has been made on Tier 3, the \'man-sized ad hoc quantum tunnel through physical space with possible applications as a shower curtain.\' The committee is quickly permanently recessed, and Aperture is granted an open-ended contract to secretly continue research on the \'Portal\' and Heimlich Counter-Maneuver projects.\n\n\n[MORE]";
@@ -68,6 +68,14 @@ inline void initTexts() {
     texts[20]="[2314 total choices : PGUP/PGDN to navigate]> ";
     texts[21]="Congratulations!\n\nYou have finished the:\n\nENRICHMENT CENTER TEST SUBJECT APPLICATION\nFORMS-EN-2873-FORM (PART1: PERSONALITY & GENERAL KNOWLEDGE)\n\nPlease enter your 64 digit UIN(+L) to complete the process.\n\n> ";
     texts[22]="The entered UIN(+L) does not match your assigned UIN(+L).\n\nPlease REMAIN AT YOUR WORKSTATION until a Computer-Aided-Enrichment Crisis Team arrives.\n\n";
+    texts[23]="GLaDOS v1.07 (c) 1982 Aperture Science, Inc.";
+    texts[24]="Username> ";
+    texts[25]="Password> ";
+    texts[26]="ERROR 07 [Incorrect Password]\n\n";
+    texts[27]="GLaDOS v1.07a (c) 1982 Aperture Science, Inc.";
+    texts[28]="\n\nERROR 24 [File \'";
+    texts[29]="\' not found]";
+    texts[30]="Form FORMS-EN-2873-FORM - Page ";
 }
 struct Q {
     std::string q;
