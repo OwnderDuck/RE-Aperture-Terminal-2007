@@ -13,7 +13,7 @@ Almost complete — only three minor easter eggs remain, which are not planned f
 Just `g++`. Requires at least C++11. A newer C++ standard is recommended.
 
 en_US: `g++ -std=c++17 -O2 ReApertureTerminal.cpp -o ReApertureTerminal`\
-zh_CN: `g++ ReApertureTerminal.cpp -o ReApertureTerminal -std=c++17 -O2 -DLANG_EN_US`
+zh_CN: `g++ ReApertureTerminal.cpp -o ReApertureTerminal -std=c++17 -O2 -DLANG_ZH_CN`
 ## Relationship to the Original & Copyright
 This project is an unofficial community reimplementation.\
 The original Aperture Science Terminal was hosted on aperturescience.com in 2007 and was built with Adobe Flash.\
