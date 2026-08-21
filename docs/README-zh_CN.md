@@ -12,11 +12,8 @@
 ## 构建
 g++就行,至少C++11，推荐使用更新的C++标准。
 
-`g++ -std=c++17 -O2 ReApertureTerminal.cpp -o ReApertureTerminal`
-
-简体中文版：
-
-`g++ -std=c++17 -O2 experiment-zh_CN/ReApertureTerminal.cpp -o experiment-zh_CN/ReApertureTerminal`
+英语：`g++ -std=c++17 -O2 ReApertureTerminal.cpp -o ReApertureTerminal`\
+简体中文版：`g++ ReApertureTerminal.cpp -o ReApertureTerminal -std=c++17 -O2 -DLANG_EN_US`
 ## 与原版的关系、素材与版权
 本项目是一个非官方的社区重实现项目。\
 原版 Aperture Science Terminal 于 2007 年通过 aperturescience.com 提供，并使用 Adobe Flash 构建。\
