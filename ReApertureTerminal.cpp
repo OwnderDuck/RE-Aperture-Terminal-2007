@@ -93,7 +93,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
     else {typeString(ts+qs[21].q+"\n\n",15);}
     for (int i=1;i<=15;i++) {
         for (int j=1;j<=3;j++) {
-            int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
+            int num=(j-1)*15+i+pageNow*104/*[sic]*/;/*correct is 45 but [sic]*/
             if (num>ln) {break;}
             // output options
             for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
@@ -370,7 +370,7 @@ int main(int argc,char* argv[]){
                     if (input=="QUIT") {state=LOGINED;}
                     if (input=="CONTINUE") {step++;}
                     else {printf("\033[2K\033[G> ");fflush(stdout);goto goto0;}
-                } else if (step==51){
+                } else if (step==51){// finish
                     typeString(texts[21],10);
                     input=getLine();
                     printf("\033[2J\033[H");
@@ -378,17 +378,17 @@ int main(int argc,char* argv[]){
                     while (1) {printf("\033[2K\033[G");fflush(stdout);getLine();}
                 } else {
                     ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
-                    if (qs[step].t=='T') {
+                    if (qs[step].t=='T') { // text only
                         typeString(ts+qs[step].q+"\n\n> ",25);
                         input=getLine(); if (input=="QUIT") {state=LOGINED;}
                         step++;
                     }
-                    else {
+                    else { // others
                         int ln=qs[step].c.size()-1;
                         int col=4;
                         if (ln>150||ln<=48) {col=3;}
                         if (ln<=19) {col=1;}
-                        if (step==3) {
+                        if (step==3) { // too long question
                             typeString(ts+qs[step].q+"\n\n",15);
                             for (int i=1;i<=16;i++) {
                                 for (int j=1;j<=2;j++) {
@@ -420,7 +420,7 @@ int main(int argc,char* argv[]){
                             for (int i=0;i<input.size();i++) {if (input[i]==' ') {goto gotoBecauseInputIsllegal_1;}}
                             if (stoi(input)>ln) {goto gotoBecauseInputIsllegal_1;}
                             step++;
-                        } else if (step==21) {
+                        } else if (step==21) { // only No.21 has many pages
                             if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
                             else {typeString(ts+qs[step].q+"\n\n",15);}
                             for (int i=1;i<=15;i++) {

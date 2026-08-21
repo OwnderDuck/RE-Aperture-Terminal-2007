@@ -94,7 +94,7 @@ void upDown(bool x,string ans) {/* 0 Up    1 Dn*/
     else {typeString(ts+qs[21].q+"\n\n",15);}
     for (int i=1;i<=15;i++) {
         for (int j=1;j<=3;j++) {
-            int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
+            int num=(j-1)*15+i+pageNow*104/*[sic]*/;/*correct is 45 but [sic]*/
             if (num>ln) {break;}
             // output options
             for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
@@ -195,20 +195,6 @@ string getLocalUid(){
     return ss.str();
 }
 #ifdef _WIN32
-UINT oldOutputCP=0;
-UINT oldInputCP=0;
-BOOL WINAPI ctrlHandler(DWORD ctrlType) {
-    if (ctrlType==CTRL_C_EVENT||ctrlType==CTRL_BREAK_EVENT) {
-        SetConsoleOutputCP(oldOutputCP);
-        SetConsoleCP(oldInputCP);
-        DWORD written;
-        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        WriteConsoleA(hOut,"\033[?1049l", sizeof("\033[?1049l")-1,&written,NULL);
-        ExitProcess(0);
-        return TRUE;
-    }
-    return FALSE;
-}
 #else
 void safeExit(int s) {
     printf("\033[?1049l");
@@ -234,7 +220,6 @@ int main(int argc,char* argv[]){
     string username,password;
     rawMode(1);
 #ifdef _WIN32
-    SetConsoleCtrlHandler(ctrlHandler,TRUE);
 #else
     signal(SIGINT,safeExit);
 #endif
@@ -386,25 +371,25 @@ int main(int argc,char* argv[]){
                     if (input=="QUIT") {state=LOGINED;}
                     if (input=="CONTINUE") {step++;}
                     else {printf("\033[2K\033[G> ");fflush(stdout);goto goto0;}
-                } else if (step==51){
+                } else if (step==51){// finish
                     typeString(texts[21],10);
                     input=getLine();
                     printf("\033[2J\033[H");
                     typeString(texts[22],10);
                     while (1) {printf("\033[2K\033[G");fflush(stdout);getLine();}
                 } else {
-                    ts="Form FORMS-EN-2873-FORM - 第 "+to_string(step)+" 页\n\n";
-                    if (qs[step].t=='T') {
+                    ts="Form FORMS-EN-2873-FORM - Page "+to_string(step)+"\n\n";
+                    if (qs[step].t=='T') { // text only
                         typeString(ts+qs[step].q+"\n\n> ",25);
                         input=getLine(); if (input=="QUIT") {state=LOGINED;}
                         step++;
                     }
-                    else {
+                    else { // others
                         int ln=qs[step].c.size()-1;
                         int col=4;
                         if (ln>150||ln<=48) {col=3;}
                         if (ln<=19) {col=1;}
-                        if (step==3) {
+                        if (step==3) { // too long question
                             typeString(ts+qs[step].q+"\n\n",15);
                             for (int i=1;i<=16;i++) {
                                 for (int j=1;j<=2;j++) {
@@ -414,7 +399,7 @@ int main(int argc,char* argv[]){
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
                                     printf("%d] %s",num,qs[step].c[num].c_str());
                                     if (j!=2) {
-                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length()/3*2);k++) {printf(" ");}
+                                        for (int k=1;k<=120/3-(int(log10(ln))+2+qs[step].c[num].length());k++) {printf(" ");}
                                     }
                                 }
                                 printf("\n");
@@ -436,12 +421,12 @@ int main(int argc,char* argv[]){
                             for (int i=0;i<input.size();i++) {if (input[i]==' ') {goto gotoBecauseInputIsllegal_1;}}
                             if (stoi(input)>ln) {goto gotoBecauseInputIsllegal_1;}
                             step++;
-                        } else if (step==21) {
+                        } else if (step==21) { // only No.21 has many pages
                             if(pageNow>0) {typeString(ts+qs[step].q+"\n\n",1);}
                             else {typeString(ts+qs[step].q+"\n\n",15);}
                             for (int i=1;i<=15;i++) {
                                 for (int j=1;j<=3;j++) {
-                                    int num=(j-1)*15+i+104*pageNow;/*correct 45 but [sic]*/
+                                    int num=(j-1)*15+i;
                                     if (num>ln) {break;}
                                     // output options
                                     for (int k=1;k<=(int(log10(ln)))-(int(log10(num)));k++) {printf("0");}
