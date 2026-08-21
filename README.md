@@ -8,7 +8,7 @@ There is a Aperture Science Terminal built with Flash in [aperturescience.com](h
 
 Now I reimplement it in C++.
 ## Status
-Almost complete — only two easter eggs left.
+Almost complete — only three minor easter eggs remain, which are not planned for implementation.
 ## Build
 Just `g++`. Requires at least C++11. A newer C++ standard is recommended.
 
