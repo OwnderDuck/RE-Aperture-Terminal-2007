@@ -25,7 +25,19 @@ using namespace std;
 bool skip=0;
 bool skipToApply=0;
 #ifdef _WIN32
-    static inline int myGetch(void) {return _getch();}
+    UINT oldOutputCP=0;
+    UINT oldInputCP=0;
+    static inline int myGetch(void) {
+        char g=_getch();
+        if (g==0x03) {
+            SetConsoleOutputCP(oldOutputCP);
+            SetConsoleCP(oldInputCP);
+            printf("\033[?1049l");
+            fflush(stdout);
+            exit(0);
+        }
+        return g;
+    }
     void rawMode(bool) {}
 #else
     termios oldTerm;
